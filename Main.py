@@ -1,6 +1,7 @@
 import sys
 
 from Matricula import Matricula
+from Usuario import Usuario
 
 #import Estudiante
 #import Docente
@@ -15,18 +16,23 @@ def MenuPrincipal():
     print("1.- Estudiantes                                               ") # Invoca a la clase Estudiantes
     print("2.- Docentes                                                  ") # Invoca a la Clase Docentes
     print("3.- Jefe de Carrera                                           ") # Invoca a la Clase JefedeCarrera
-    print("\n4.- Salir                                                   ") # Salimos del programa
+    print("4.- Admin                                                      ") # Salimos del programa
+    print("                                                              ") # Salimos del programa
+    print("\n5.- Salir                                                   ") # Salimos del programa   
+    print("\n=============================================================")
+    print("\n======@Todos los derechos e izquierdos reservados=============")
     print("\n=============================================================")
 
 
+    
 
 op=0
-while not op == 4:
+while not op == 5:
     
     MenuPrincipal()
     op=int(input("Seleccione una opcion: "))
     
-    if op > 0 and op <= 4:
+    if op > 0 and op <= 5:
         #se cumplan ambas opciones
         if op == 1:
             print("\nIngresando seccion Estudiante\n")
@@ -34,7 +40,7 @@ while not op == 4:
             sino = input("Ingrese una opcion: ")
             if sino == "S" or "s":
                 print("\nAccediento a Portal Estudiante\n")
- 
+            
             # Invocamos a clase personas para val1idar usuario y contraseña
             # Invocamos Clase Estudiantes
 
@@ -42,8 +48,13 @@ while not op == 4:
 
                 print("\nAccediento al Formulario Matricula\n")
                 Mat = Matricula()
+                Mat.MostrarCarrera()
+                Mat.CalcularCuota()
                 Mat.ingresarMatricula()
-            # Invocamos a Clase Matricula para ingresar un Alumno
+                
+                # Invocamos a Clase Matricula para ingresar un Alumno
+                # Del mismo formulario, llenamos la tabla Estudiante
+
 
                 
 
@@ -59,7 +70,13 @@ while not op == 4:
             # Invocamos a clase personas para validar usuario y contraseña
             # Incocamos Clase Jefe de Carrera
 
+
         if op == 4:
+            print("\nAccediento al Formulario Usuario\n")
+            User = Usuario()
+            User.ingresoUsuario()
+
+        if op == 5:
             sys.exit("Saliendo del sistema")
         
     else:
