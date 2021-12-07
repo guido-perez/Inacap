@@ -1,7 +1,7 @@
 import sys
 
 from Matricula import Matricula
-from Usuario import Usuario
+
 
 #import Estudiante
 #import Docente
@@ -20,7 +20,7 @@ def MenuPrincipal():
     print("                                                              ") # Salimos del programa
     print("\n5.- Salir                                                   ") # Salimos del programa   
     print("\n=============================================================")
-    print("\n======@Todos los derechos e izquierdos reservados=============")
+    print("\n         Todos los derechos e izquierdos reservados            ")
     print("\n=============================================================")
 
 
@@ -40,6 +40,9 @@ while not op == 5:
             sino = input("Ingrese una opcion: ")
             if sino == "S" or "s":
                 print("\nAccediento a Portal Estudiante\n")
+                
+                
+                
             
             # Invocamos a clase personas para val1idar usuario y contraseña
             # Invocamos Clase Estudiantes
