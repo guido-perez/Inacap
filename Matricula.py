@@ -1,7 +1,7 @@
 
 from Conexion import Conexion
-
 from datetime import datetime
+
 
 class Matricula:
     idCarrera=''
@@ -61,39 +61,7 @@ class Matricula:
 
      
     def ingresarMatricula(self):
-        
-        #AUTO FORMULARIO
-        
-          
-        rut = "16916296-4"
-        nombres = "ASDASDASD "
-        apellidoP = "ASDASDASD "
-        apellidoM = "ASDASD "
-        direccion = "ASDASDASD "
-        comuna = "ASDASDASD "
-        ciudad = "ASDASDASD "
-        telefono = 55555
-        date = datetime.now()
-        #fechaInscripcion = date.strftime('%d/%b/%Y')
-        semestre ="ASDASDASD "
-        cuota = Matricula.cuota
-        arancel = Matricula.arancel
-        carrera = Matricula.carrera
-        sede = "ASDASDASD "
-        estadopago = "ASDASDASD "
-        #area = Matricula.area
-
-        correo =  "ASDASD@inacapmail.cl" 
-
-        
-        #Asignar Contraseña
-        
-        if len(rut) == 10:  
-            contraseña = rut[:8]
-        if len(rut) == 9:
-            contraseña = rut[:7]
-        """ 
-        
+        #Ingreso de Datos 
         rut = input("Ingrese Rut del Alumno (Sin puntos): ")
         nombres = input("Ingrese Nombre del Alumno: ")
         apellidoP = input("Ingrese Apellido Paterno del Alumno: ")
@@ -127,7 +95,7 @@ class Matricula:
         if len(rut) == 9:
             contraseña = rut[:7]
         
-        """        
+          
         try: 
                 cn= Conexion()
                 cursor = cn.conexion.cursor()

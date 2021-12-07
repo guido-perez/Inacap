@@ -1,7 +1,7 @@
+
 import cx_Oracle
 
-class Conexion:
-    
+class Conexion:    
     
     lib_dir = "C:\instantclient_21_3"
     try:
@@ -10,3 +10,9 @@ class Conexion:
         
     except Exception as ex:
         print(ex)
+        
+
+      
+
+
+
