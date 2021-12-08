@@ -36,18 +36,16 @@ while not op == 5:
                 print("\nIngresando seccion Estudiante\n")
                 print("¿El Alumno Matriculado? (S/N)\n")
                 sino = input("Ingrese una opcion: ")
-                if sino == "S" or "s":
-                    print("\nAccediendo a Portal Estudiante\n")
-                    
-                       
+                if sino == "S" or sino == "s":
+                    print("\nAccediendo a Portal Estudiante\n")  
                     useraux = 'Estudiante'
                     User = Persona()
                     User.Validacion(useraux)
                     break
                     # Invocamos a clase personas para val1idar usuario y contraseña
                     # Invocamos Clase Estudiantes
-                if sino == "N" or "n":
-
+                if sino == "N" or sino == "n":
+                    
                     print("\nAccediendo al Portal Matricula\n")
                     Mat = Matricula()
                     Mat.MostrarCarrera()
@@ -96,9 +94,9 @@ while not op == 5:
                     print("4.- Modificar Matricula                                                         ") # a la funcion Modificar Matricula Usuarios
                     print("                                                              ") # Salimos del programa
                     print("\n5.- Salir                                                   ") # Salimos del programa   
-                    print("\n✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
-                    print("\n        Todos los derechos e izquierdos reservados®            ")
-                    print("\n✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")                           
+                    print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
+                    print("        Todos los derechos e izquierdos reservados®            ")
+                    print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")                           
 
 
                 op=0
@@ -110,31 +108,26 @@ while not op == 5:
                     if op > 0 and op <= 5:
                                 #se cumplan ambas opciones
                                     if op == 1:
-                                        print("\nIngresando Formulario de Ingreso de Usuarios\n")
-                                                        
+                                        print("\nIngresando Formulario de Ingreso de Usuarios\n")        
+                                        User = Persona()
                                         User.ingresoUsuario()
                                         break
-                                        # Invocamos a clase personas para val1idar usuario y contraseña
-                                        # Invocamos Clase Persona
-
-
-                                                        
+                                        # Invocamos a clase Personas
+                                        # Invocamos la funcion para ingresar Docente o Jefe de Carrera
 
                                     if op == 2:
                                         print("\nIngresando Formulario de Eliminar de Usuarios\n")
-                                        useraux = 'Docente'
-                                        Usr = Persona()
-                                        Usr.Validacion(useraux)
+                                        User = Persona()
+                                        User.eliminarDocente()
                                         break
 
-                                        # Invocamos a clase personas para eliminar usuarios
-                                        # Incocamos Clase Persona 
+                                        # Invocamos a clase Personas
+                                        # Incocamosla funcion para eliminar  Docente o Jefe de Carrera
                                                     
                                     if op == 3:
                                         print("\nIngresando Formulario de Anular Matricula\n")
-                                        useraux = 'Jefe Carrera'
-                                        Usr = Persona()
-                                        Usr.Validacion(useraux)
+                                        User = Matricula()
+                                        User.AnularMatricula()
                                         break
 
                                         # Invocamos a clase personas para validar usuario y contraseña
@@ -143,10 +136,8 @@ while not op == 5:
 
                                     if op == 4:
                                         print("\nIngresando Formulario de Modificar Matricula\n")
-                                        useraux = 'Administrador'
-                                        User = Persona()
-                                        User.Validacion(useraux)
-                                        User.ingresoUsuario()
+                                        User = Matricula()
+                                        User.ActualizarMatricula()
 
                                     if op == 5:
                                         sys.exit("Saliendo del MunuAdmin")
