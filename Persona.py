@@ -64,12 +64,12 @@ class Persona:
                         cn= Conexion()
                         cursor = cn.conexion.cursor()
                         
-                        SQL = f"select contraseña from jefecarrera where rut = '{nombre}' or correo = '{nombre}' "
+                        SQL = f"select contraseña from administrador where rut = '{nombre}' or correo = '{nombre}' "
                         for row in cursor.execute(SQL): 
                          print(end="")
 
                         
-                        print("\n****** Jefe Carrera Validado Correctamente *****\n")
+                        print("\n****** Administrador Validado Correctamente *****\n")
                 except Exception as ex:
                         print(ex)
         
@@ -85,73 +85,99 @@ class Persona:
         ciudad = input(f"Ingrese Ciudad del {tipousuario}: ")
         telefono = int(input(f"Ingrese Telefono del {tipousuario}: "))
         
-        print("\n \n")
-        
-        try: 
-                cn0= Conexion()
-                cursor = cn0.conexion.cursor()
-                        
-                SQL0 = f"select * from carrera "
-                for row in cursor.execute(SQL0): 
-                 print(end="")
-
-        except Exception as ex:
-                        print(ex)
-        
-        print()
-       # fechaInscripcion = input(f"Ingrese fechaInscripcion del {tipousuario}: ")
-        idcarrera = input(f"Ingrese carrera para el {tipousuario}: ")
-        
         #Creacion de Correo
         cadena = nombres[:1]
         cadena2 = apellidoP[:3]
         cadena3 = apellidoM[:3]
         correo = cadena + cadena2 + cadena3 + "@inacapmail.cl" 
         correo = correo.lower()
-            
+               
+        print("\n \n")
+        print("\n        Listado Areas             ")
+        print("")
+        print("ID |        Nombre                    ")
+        try: 
+                cn0= Conexion()
+                cursor = cn0.conexion.cursor()
+                        
+                SQL0 = f"select * from area "
+                for row in cursor.execute(SQL0): 
+                 print(row[0]," | ",row[1],"     | ", row[2])
+                 
+
+        except Exception as ex:
+                        print(ex)
+        
+        
+        
+        
+        print()
+       # fechaInscripcion = input(f"Ingrese fechaInscripcion del {tipousuario}: ")
+        idarea = int(input(f"Ingrese area para el {tipousuario}: "))
+
+        try: 
+                cn0= Conexion()
+                cursor = cn0.conexion.cursor()
+
+                    
+                SQL = f"select jc.id_jefecarrera from jefecarrera jc "
+                SQL = SQL + f" inner join area a on jc.id_jefecarrera = a.id_area "
+                SQL = SQL + f" where a.nombre = '{idarea}' "
+                for row in cursor.execute(SQL): 
+                 print(end="")
+                idjefecarrera = row 
+
+        except Exception as ex:
+                        print(ex)
+        
         #Creacion de contraseña
                     
         if len(rut) == 10:  
           contraseña = rut[:8]
         if len(rut) == 9:
          contraseña = rut[:7]
-        
-        try: 
-                cn= Conexion()
-                cursor = cn.conexion.cursor()
+        if {tipousuario}=='Docente':
                 
-                SQL = "insert into {tipousuario} (tipousuario, nombres, apellidop, apellidom, rut, direccion, comuna, ciudad, telefono, correo, contraseña, idjefecarrera idcarrera) "
-                SQL = SQL + f" values ('{tipousuario}', '{nombres}', '{apellidoP}', '{apellidoM}', '{rut}', '{direccion}', '{comuna}', '{ciudad}', '{telefono}', "
-                SQL = SQL + f" '{correo}','{contraseña}', '{Matricula.idCarrera}', '{idcarrera}'') "
-                
-                #alter sequence estudiante_idestudiante_seq restart start with 1;
-                
-                cursor.execute (SQL)
-                cn.conexion.commit()
-                
-                print("\n****** Estudiante Ingresado Correctamente *****\n")
-                
-                # Intente un Last_Value e intente un :new o sql un last_insert_id()
-                
-              
-                #Obtener el Ultimo ID Ingresado
-                for estudiante_idestudiante in cursor.execute("SELECT idestudiante FROM Estudiante WHERE idestudiante=(SELECT max(idestudiante) FROM Estudiante)"):
-                 estudiante_idestudiante = str(estudiante_idestudiante)
-                 estudiante_idestudiante= estudiante_idestudiante[1:-2]
-                 estudiante_idestudiante = int(estudiante_idestudiante)               
-               
-                cn2= Conexion()
-                cursor2 = cn2.conexion.cursor()
-                 
-                SQL2 = "insert into Matricula ( rut, nombres, apellidop, apellidom, direccion, comuna, ciudad, telefono, fechainscripcion, "
-                SQL2 = SQL2+ " semestre, cuota, arancel, idcarrera, sede, idestudiante, estadopago)"
-                SQL2 = SQL2 + f" values ('{rut}', '{nombres}', '{apellidoP}', '{apellidoM}', '{direccion}', '{comuna}', '{ciudad}', '{telefono}', to_date(sysdate, 'dd/mm/yyyy'), "
-                SQL2 = SQL2 + f" '{semestre}', '{cuota}', '{arancel}', '{Matricula.idCarrera}', '{sede}', '{estudiante_idestudiante}', '{estadopago}')"
-                cursor2.execute (SQL2)
-                cn2.conexion.commit()
-                print("\n****** Alumno Matriculado Correctamente *******\n")
-                
-        except Exception as ex:
-                print(ex)
+                try: 
+                        cn= Conexion()
+                        cursor = cn.conexion.cursor()
+                        
+                        SQL = f"insert into docente (tipousuario, nombres, apellidop, apellidom, rut, direccion, comuna, ciudad, telefono, correo, contraseña, id_jefecarrera, id_area) "
+                        SQL = SQL + f" values ('{tipousuario}', '{nombres}', '{apellidoP}', '{apellidoM}', '{rut}', '{direccion}', '{comuna}', '{ciudad}', '{telefono}', "
+                        SQL = SQL + f" '{correo}','{contraseña}', '{idjefecarrera}', '1') "
+                        
+                        #alter sequence estudiante_idestudiante_seq restart start with 1;
+                        
+                        cursor.execute (SQL)
+                        cn.conexion.commit()
+                        
+                        print("\n****** Docente Ingresado Correctamente *****\n")
+                        
+                        # Intente un Last_Value e intente un :new o sql un last_insert_id()
+                        
 
-            
+                except Exception as ex:
+                        print(ex)
+
+        else:
+                    
+                try: 
+                        cn= Conexion()
+                        cursor = cn.conexion.cursor()
+                        
+                        SQL = "insert into jefecarrera (tipousuario, nombres, apellidop, apellidom, rut, direccion, comuna, ciudad, telefono, correo, contraseña, id_area) "
+                        SQL = SQL + f" values ('{tipousuario}', '{nombres}', '{apellidoP}', '{apellidoM}', '{rut}', '{direccion}', '{comuna}', '{ciudad}', '{telefono}', "
+                        SQL = SQL + f" '{correo}','{contraseña}', '{idarea}') "
+                        
+                        #alter sequence estudiante_idestudiante_seq restart start with 1;
+                        
+                        cursor.execute (SQL)
+                        cn.conexion.commit()
+                        
+                        print("\n****** Jefe Carrera Ingresado Correctamente *****\n")
+                        
+                        # Intente un Last_Value e intente un :new o sql un last_insert_id()
+                        
+
+                except Exception as ex:
+                        print(ex)

@@ -103,7 +103,7 @@ class Matricula:
                 SQL = "insert into Estudiante (tipousuario, rut, nombres, apellidop, apellidom, direccion, comuna, ciudad, telefono, correo, contraseña, idcarrera, idseccion) "
                 SQL = SQL + f" values ('Estudiante', '{rut}', '{nombres}', '{apellidoP}', '{apellidoM}', '{direccion}', '{comuna}', '{ciudad}', '{telefono}', "
                 SQL = SQL + f" '{correo}','{contraseña}', '{Matricula.idCarrera}', '1') "
-                
+                #Falta validar con un contar si la seccion es > a 15 o 20 cambiar a id 2 en referencia a curso completo. 
                 #alter sequence estudiante_idestudiante_seq restart start with 1;
                 
                 cursor.execute (SQL)
