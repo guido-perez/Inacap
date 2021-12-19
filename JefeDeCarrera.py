@@ -115,7 +115,8 @@ class jefeDeCarrera:
                     print(ex)
 
             ###############################################################################
-    #Docentes
+                                             #Docentes
+            ###############################################################################
 
     def AsignarModDoc(self):
             
@@ -432,3 +433,126 @@ class jefeDeCarrera:
                 print(" Modulo Eliminado Del Estudiante con exito...  ")  
             except Exception as ex:
                 print(ex)      
+
+
+######################################
+            #SECCIONES
+#######################################
+
+    def ListarSecciones(self):
+        print("| ID | Nombre  |  Modalidad  |  ID Carrera |")
+        try:
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_seccion, seccion, modalidad, id_carrera from seccion "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex)
+
+    def CrearSeccion(self):
+        print("|     Secciones Existentes |")
+        print("| ID |   Nombre Seccion   |")
+        
+  
+        while True: 
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"select * from Seccion order by id_seccion ASC "
+                for row in cursor.execute(SQL0):
+                    print(row)
+            except Exception as ex:
+                    print(ex)
+
+            seccion=input("Ingrese nombre de la nueva seccion: ")
+            
+            modalidad=input("Ingrese Modalidad (Vespertina/Diurna): ")
+
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"select id_jefe_carrera, nombres, apellidop from jefecarrera order by id_jefe_carrera ASC "
+                for row in cursor.execute(SQL0):
+                    print(row[0]," | ",row[1]," | ",row[2])
+            except Exception as ex:
+                    print(ex)
+        
+            id_jefecarrera= input("Indique el ID del Jefe de Carrera encargado de la nueva Seccion: ")
+
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"select id_carrera, carrera from carrera order by id_carrera ASC "
+                for row in cursor.execute(SQL0):
+                    print(row[0]," | ",row[1])
+            except Exception as ex:
+                    print(ex)
+            
+            id_carrera= input("Indique el ID de la carrera a la cual pertenecera la nueva Seccion: ")
+        
+
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"insert into seccion (seccion, modalidad, id_jefe_carrera, id_carrera) values ('{seccion}', '{modalidad}','{id_jefecarrera}','{id_carrera}') "
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" ¡Seccion creada con exito! ")
+                bandera=input("Desea ingresar otra Seccion?(s/n) ")
+                if bandera== "s" or bandera== "S":
+                    bandera== True
+                elif bandera== "n" or bandera== "N":
+                    break
+
+            except Exception as ex:
+                    print(ex)
+
+    def modificarSeccion(self):
+            print("| ID | Nombre  |  Modalidad  |  ID Carrera |")
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"select id_seccion, seccion, modalidad, id_carrera from seccion "
+                for row in cursor.execute(SQL0):
+                    print(row[0]," | ",row[1]," | ",row[2]," | ",row[3])
+            except Exception as ex:
+                    print(ex)
+            id_seccion=input("Indique ID de seccion que desea modificar: ")
+            nombrenuevo=input("Indique el nuevo nombre para la Seccion: ")
+
+            try:
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                     
+                SQL0 = f"update seccion set seccion='{nombrenuevo}' "
+                SQL0 = SQL0 + f" where id_seccion='{id_seccion}'"
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Modificada con exito...  ")   
+            except Exception as ex:
+                    print(ex)
+
+    def eliminarSeccion(self):
+
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()                      
+                SQL0 = f"select id_seccion, seccion, modalidad, id_carrera from seccion "
+                for row in cursor.execute(SQL0):
+                    print(row[0]," | ",row[1]," | ",row[2]," | ",row[3])
+            except Exception as ex:
+                    print(ex)
+            id_seccion=input("Indique ID de seccion que desea Eliminar: ")
+
+            try:
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                     
+                SQL0 = f"delete from seccion where id_seccion='{id_seccion}' "
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Eliminada con exito...  ")   
+            except Exception as ex:
+                    print(ex)
+
