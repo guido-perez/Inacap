@@ -21,7 +21,7 @@ class Nota:
 
         
         idEstudiante = int(input("\nSelecciona ID carrara para Matricularse: "))
-        Matricula.idCarrera=idEstudiante
+        #Matricula.idCarrera=idEstudiante
         
-        Matricula.carrera= row[1]
-        Matricula.area=row[2]
+        #Matricula.carrera= row[1]
+        #Matricula.area=row[2]

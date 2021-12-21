@@ -5,24 +5,40 @@ from Conexion import Conexion
 import os
 
 class PDF(FPDF):
-
-
-
+        mediopago= ''
+        alumno=''
+           
         def header(self):
+                try:            
+                        cn= Conexion()
+                        cursor = cn.conexion.cursor()   
+                        SQL = f"select d.id_transaccion, d.tipo_pago, m.nombres || ' '|| m.apellidop || ' '|| m.apellidom NombreAlumno from detalle_pago d  "
+                        SQL = SQL + f" inner join transaccion t on t.id_transaccion = d.id_transaccion "
+                        SQL = SQL + f" inner join matricula m on m.id_transaccion = t.id_transaccion "
+                        SQL = SQL + f" where d.estado_pago='Pagada' and d.concepto_pago='Matricula' and m.rut='{rut}' "
+                        for row in cn.cursor.execute(SQL):
+                                row
+                                mediopago=row[1]
+                                alumno=row[2]
+
+                except Exception as ex:
+                        print(ex) 
                 self.image('logoInacap.png',
                 x = 135, y = 10, w = 60, h = 30)
 
                 self.set_font('Arial', '', 15)
                 self.cell(w = 0, h = 30, txt = 'Comprobante de Pago',ln=2, border = 0, align = 'L', fill = 0, )
-                self.multi_cell(w = 0, h = 15, txt = 'Codigo de Operacion:  ', border = 0, align = 'L', fill = 0)
-                self.cell(w = 0, h = 0, txt = 'Medio de Pago: {} ',  border =0, align = 'L', fill = 0)
-                                
+                self.multi_cell(w = 0, h = 15, txt = f'Alumno: {alumno}   ', border = 0, align = 'L', fill = 0)
+                self.cell(w = 0, h = 0, txt = f'Medio de Pago: {mediopago}' ,  border =0, align = 'L', fill = 0)
+                       
+                
                 self.multi_cell(w = 0, h = 20, txt = '', border =0, align = 'L', fill = 0)
                 self.ln(5)
                 #self.multi_cell(w = 100, h = 15,  txt = '{variable}', border = 0, fill = 0)
                 #self.multi_cell(w = 100, h = 15,  txt = '{variable}',  fill = 0)
                 #http://www.fpdf.org/es/doc/cell.htm
-                        
+             
+           
         # Page footer
         def footer(self):
                 # Position at 1.5 cm from bottom
@@ -37,28 +53,27 @@ class PDF(FPDF):
                 align = 'C', fill = 0)   
 
 
-datos = (
-        ('carlos@gmail.com', '05-02-2020','180000'),
-        )
- 
+
  
 # datos para comprobante matricula
 rut = input("\nIngrese el rut del alumno matriculado: ")
 try:            
         cn= Conexion()
-        SQL = f"select d.concepto_pago, to_char(fecha_pago, 'dd/mm/yy'), d.valor_cuota, d.tipo_pago, d.id_transaccion from detalle_pago d "
+        cursor = cn.conexion.cursor()   
+        SQL = f"select concepto_pago, to_char(fecha_pago, 'dd/mm/yy'), valor_cuota from detalle_pago d  "
         SQL = SQL + f" inner join transaccion t on t.id_transaccion = d.id_transaccion "
-        SQL = SQL + f" inner join matricula m on m.id_matricula = t.id_transaccion "
+        SQL = SQL + f" inner join matricula m on m.id_transaccion = t.id_transaccion "
         SQL = SQL + f" where d.estado_pago='Pagada' and d.concepto_pago='Matricula' and m.rut='{rut}' "
         for row in cn.cursor.execute(SQL):
          datos = ((row),)
-         
+
 except Exception as ex:
                 print(ex) 
-            
-"""
 
-  
+
+
+
+
 pdf = PDF(orientation = 'P', unit = 'mm', format='A4') 
 pdf.alias_nb_pages()
 

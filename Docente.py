@@ -253,4 +253,34 @@ class docente:
         except Exception as ex:
             print(ex)
 
+    def verModulos(self, Rut):
+        
+        #rut = input("Ingrese rut o correo: ")
+        
+        try: 
+            cn= Conexion()
+            cursor = cn.conexion.cursor()
+            SQL = f"select d.nombres || ' '|| d.apellidop || ' '|| d.apellidom NombreDocente, m.modulo from carga_modulo cm "
+            SQL = SQL + f" inner join docente d on d.id_docente = cm.id_docente "
+            SQL = SQL + f" inner join modulo m on m.id_modulo = cm.id_modulo "
+            SQL = SQL + f" where d.rut='{Rut}' "
+   
+            contador= 0
+            for row in cursor.execute(SQL):     
+                contador = contador + 1
+      
+            if contador > 1:
+                    print("******************************************************")
+                    print(f"Listado Modulos Docente : {row[0]}                     ") 
+                    print("*****************************************************")
+                    print("                                                     ") 
+                    contador2= 0 
+                    for i in cursor.execute(SQL):
+                        contador2= contador2 + 1
+                        print(f"Modulo {contador2}: {i[1]}")
+                    print(f"\nEl Docente tiene asignado un total de {contador2} Modulos \n ")
+                    print("*****************************************************")
+                    
+        except Exception as ex:
+            print(ex)
 
