@@ -71,7 +71,7 @@ class Matricula:
        
     def Transaccion(self):
         
-        print("Portal de Pago")
+        print("Portal de Creacion de Cuponera de Pago")
         rut = input("\nIngrese el rut del alumno matriculado: ")
         
         try: 
@@ -82,13 +82,11 @@ class Matricula:
             SQL = SQL + f" where rut='{rut}'"
             
             contador = 0
+            print("ID |        RUT           |       CARRERA                    ")
             for row in cursor.execute(SQL):
-                print("ID |        RUT           |       CARRERA                    ")
                 print(row[0]," | ",row[1],"     | ", row[2])   
                 contador=contador+1
             if contador > 1:
-                print(f"condador {contador}")
-
                 Matricula.aux = input("Seleccione la Matricula a pagar: ")
               
         except Exception as ex:
@@ -162,28 +160,27 @@ class Matricula:
                 print(ex) 
 
 
-    def ModificarCuponera(self):
+    def ModificarCuponera(self, Rut):
         
         print("Portal de Pago")
-        rut = input("\nIngrese el rut del alumno matriculado: ")
+        #rut = input("\nIngrese el rut del alumno matriculado: ")
         
         try: 
             cn= Conexion()
             cursor = cn.conexion.cursor()   
             SQL = f"select m.id_matricula, m.rut, c.carrera, m.id_transaccion from matricula m "
             SQL = SQL + f"inner join carrera c on c.id_carrera=m.id_carrera "
-            SQL = SQL + f" where rut='{rut}'"
+            SQL = SQL + f" where rut='{Rut}'"
             
             contador = 0
+            print("ID |        RUT           |       CARRERA                    ")
             for row in cursor.execute(SQL):
-                print("ID |        RUT           |       CARRERA                    ")
                 print(row[0]," | ",row[1],"     | ", row[2])
                 Matricula.aux = row[0]                  #automaticamente asignamos el valor de id matricula para realizar la comparativa de la cuponera   
                 Matricula.idTransaccion = row[3]
                 
                 contador=contador+1
             if contador > 1:
-                print(f"condador {contador}")
                 Matricula.aux = input("Seleccione la Matricula a pagar: ")
                 
                 #validacion en caso de tener mas de una carrera para pagar matricula
@@ -198,7 +195,8 @@ class Matricula:
                 print(ex)
       
         #Ingresos a Transaccion
-        concepto_pago = input("Indique el concepto de Pago (Matricula - Colegiatura) : ") 
+        concepto_pago = input("Indique el concepto de Pago (Matricula - Colegiatura) : ")
+        
         if concepto_pago == 'Matricula' or concepto_pago == 'matricula': 
            Matricula.valorCuota = 136000
            print("El valor de la matricula es de $136.000 ") 
@@ -212,16 +210,24 @@ class Matricula:
                     #Actualizamos el detalle de la transaccion ingresada en la funcion transaccion. cambiando el estado de pago
                     cn= Conexion()
                     cursor = cn.conexion.cursor()
-                    SQL2 = f"update detalle_pago set estado_pago='Pagada', valor_cuota=136000, fecha_pago=to_date(sysdate, 'dd/mm/yyyy') where id_transaccion='{Matricula.idTransaccion}' and concepto_pago='Matricula' "
+                    SQL2 = f"update detalle_pago set estado_pago='Pagada', valor_cuota=136000, tipo_pago='{tipo_pago}' ,fecha_pago=to_date(sysdate, 'dd/mm/yyyy') where id_transaccion='{Matricula.idTransaccion}' "
                     cursor.execute (SQL2)
                     cn.conexion.commit()
+         
+                  
+                    #Ya que la matricula esta pagada, el estado de Matricula queda Activa
+                    cn= Conexion()
+                    cursor = cn.conexion.cursor()
+                    SQL2 = f"update matricula set estado_matricula='Vigente' where id_transaccion='{Matricula.aux}' "
+                    cursor.execute (SQL2)
+                    cn.conexion.commit()                    
+              
                     
                     #Mostramos Comprobante 
-                    
-                    
+     
                     cn= Conexion()
                     cursor = cn.conexion.cursor()   
-                    SQL = f"select concepto_pago, to_char(fecha_pago, 'dd/mm/yy'), valor_cuota from detalle_pago where id_transaccion='{Matricula.idTransaccion}' and concepto_pago='Matricula' "
+                    SQL = f"select concepto_pago, to_char(fecha_pago, 'dd/mm/yy'), valor_cuota from detalle_pago where id_transaccion='{Matricula.idTransaccion}'"
                     for row in cursor.execute(SQL):
                       pass
                     print("******************************************************")
@@ -237,47 +243,84 @@ class Matricula:
                     
                 else:    
                     #Mostrar Cuponera validando que sea la carrera por id_matricula 
+                    
                     cn= Conexion()
                     cursor = cn.conexion.cursor()   
                     SQL = f"select d.cuota, d.tipo_pago, d.valor_cuota, d.uf_dia, to_char(d.fecha_vencimiento,'dd/mm/yy'), d.concepto_pago, d.estado_pago from detalle_pago d "
                     SQL = SQL + f" inner join transaccion t on d.id_transaccion = t.id_transaccion "
                     SQL = SQL + f" inner join matricula m on t.id_transaccion = m.id_transaccion  "
-                    SQL = SQL + f" where m.rut='{rut}' and m.id_matricula='{Matricula.aux}' and d.estado_pago='Pendiente' "
-                    
+                    SQL = SQL + f" where m.rut='{Rut}' and m.id_matricula='{Matricula.aux}' and d.estado_pago='Pendiente' and d.concepto_pago = 'Colegiatura'"
+                    count = 0
                     for row in cursor.execute(SQL):
                         print(row)
-                
-                    if Matricula.cuota > 1:
-                        for i in range(1,Matricula.cuota+1):
-                            SQL2 = "insert into detalle_pago ( tipo_pago, cuota, valor_cuota, fecha_vencimiento, uf_dia, estado_pago, concepto_pago, id_transaccion, cantidad_uf, cuota_uf) "
-                            SQL2 = SQL2 + f" values ('{tipo_pago}', '{i}', '{Matricula.valorCuota}', last_day(add_months(to_date(sysdate, 'dd/mm/yyyy'),-1+{i})), '{UF.valorUF}', 'Pendiente', "
-                            SQL2 = SQL2 + f"'{concepto_pago}', '{id}', '{Matricula.cantidadUF}','{Matricula.cuotaUF}')"
-                            cursor2.execute (SQL2)
-                            cn2.conexion.commit()
-                    else: 
-                            SQL2 = "insert into detalle_pago ( tipo_pago, cuota, valor_cuota, fecha_vencimiento, uf_dia, estado_pago, concepto_pago, id_transaccion, cantidad_uf, cuota_uf) "
-                            SQL2 = SQL2 + f" values ('{tipo_pago}', '{Matricula.cuota}', '{Matricula.valorCuota}', last_day(to_date(sysdate, 'dd/mm/yyyy')), '{UF.valorUF}', 'Pendiente', "
-                            SQL2 = SQL2 + f"'{concepto_pago}', '{id}', '{Matricula.cantidadUF}','{Matricula.cuotaUF}')"
-                            cursor2.execute (SQL2)
-                            cn2.conexion.commit()
-                    print("\n****** Cuponera de Pago creada Correctamente *******\n")
-                
+                        count = count +1 
+                    elegir_cuota= int(input("Seleccione la cuota que desea pagar: "))
+                    
+                    try:
+                        cn= Conexion()
+                        cursor = cn.conexion.cursor()   
+                        SQL = f"select d.cuota, d.tipo_pago, d.valor_cuota, d.uf_dia, to_char(d.fecha_vencimiento,'dd/mm/yy'), d.concepto_pago, d.estado_pago, "
+                        SQL = SQL + f" d.cuota_uf from detalle_pago d "
+                        SQL = SQL + f" inner join transaccion t on d.id_transaccion = t.id_transaccion "
+                        SQL = SQL + f" inner join matricula m on t.id_transaccion = m.id_transaccion  "
+                        SQL = SQL + f" where m.rut='{Rut}' and m.id_matricula='{Matricula.aux}' and d.estado_pago='Pendiente' and d.concepto_pago = 'Colegiatura' and  d.cuota='{elegir_cuota}'"
+                        for row in cursor.execute(SQL):
+                            pass
+                            cuota_uf = row[7]
+                  
+                        
+                        cuota_uf = row[7] 
+                        UF.valorUF  # Valor uf
+                        nuevo_valor_cuota = cuota_uf * UF.valorUF # Nueva Cuota UF
+                        
+                    
+                        print("\n Recuerde que el valor UF se calcula al dia del pago \n")
+
+                        print("*************************************************************")
+                        print(f"Cuponera de Pago Recalculada al dia de hoy                  ")
+                        print(f"                                    Fecha de Pago: {row[4]}   ")
+                        print("**************************************************************")
+                        print(f"Cuota : {row[0]}                                    ")   
+                        print(f"Tipo pago: {tipo_pago}                                    ")
+                        print(f"Monto a Pagar: {nuevo_valor_cuota}                           ")
+                        print(f"Concepto de Pago: {row[5]}                                 ")
+                        print(f"Valor UF : {UF.valorUF}                                    ")
+                        print(f"Estado de Cuota: {row[6]}                                  ")
+                        print("                                                             ")
+                        print(f"****** Cuota de a Pagar {elegir_cuota}/{count}  *******        ")
+                        print("*****************************************************")
+
+        
+                        SQL = f"update detalle_pago set tipo_pago='{tipo_pago}', valor_cuota='{nuevo_valor_cuota}', fecha_pago=to_date(sysdate, 'dd/mm/yyyy'),  "
+                        SQL = SQL + f" uf_dia='{UF.valorUF}', estado_pago='Pagada' "
+                        SQL = SQL + f" where cuota='{elegir_cuota}' and id_transaccion='{Matricula.idTransaccion}' "
+                        cursor.execute (SQL)
+                        cn.conexion.commit()
+                        
+                    except Exception as ex:
+                        print(ex)
+                                 
+                    print("****** Comprobante de Pago creado Correctamente *******\n")
+        except Exception as ex:
+                print(ex)
+        
+        try:                
                 #Actualizamos la tabla Matricula con la ID de transaccion 
                 cn= Conexion()
                 cursor = cn.conexion.cursor()
                 if contador > 1:
-                    SQL = f"update matricula set id_transaccion='{id}'"
-                    SQL = SQL + f" where rut='{rut}' and id_matricula='{Matricula.aux}' "
+                    # Si contador es mayor a 1 es por que estudiante tiene mas de una matricula
+                    SQL = f"update matricula set id_transaccion='{Matricula.idTransaccion}'"
+                    SQL = SQL + f" where rut='{Rut}' and id_matricula='{Matricula.aux}' "
                 else:
-                    SQL = f"update matricula set id_transaccion='{id}'"
-                    SQL = SQL + f" where rut='{rut}' "
+                    # Si contador es menor a 1 por que estudiante solo tiene una matricula
+                    SQL = f"update matricula set id_transaccion='{Matricula.idTransaccion}'"
+                    SQL = SQL + f" where rut='{Rut}' "
                 cursor.execute (SQL)
                 cn.conexion.commit()
                 
         except Exception as ex:
-                print(ex) 
-
-
+                print(ex)
 
      
     def ingresarMatricula(self):
@@ -308,9 +351,34 @@ class Matricula:
         correo = cadena + cadena2 + cadena3 + "@inacapmail.cl" 
         correo = correo.lower()
         
-
-          
+        #Validacion de correos repetidos para usuario con mas de una matricula
         try: 
+            cn= Conexion()
+            cursor = cn.conexion.cursor()   
+            SQL = f"select correo from estudiante "    
+                
+            contador = 0
+            for row in cursor.execute(SQL):
+                contador=contador+1    
+                
+            if contador > 1:
+                if contador > 10:
+                    correo = cadena + cadena2 + cadena3 +str(contador+1) + "@inacapmail.cl"  
+                    correo = correo.lower()
+                else:
+                    correo = cadena + cadena2 + cadena3 + "0"+str(contador+1) + "@inacapmail.cl"  
+                    correo = correo.lower()
+                    
+        except Exception as ex:
+                print(ex)  
+                
+                
+                
+        #Insertar datos en tabla estudiante          
+        try: 
+        
+
+            
                 cn= Conexion()
                 cursor = cn.conexion.cursor()
                 
