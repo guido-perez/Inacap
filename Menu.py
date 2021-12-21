@@ -123,9 +123,9 @@ while not op == 6:
                     print("\n✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                     print("✧✧✧✧✧✧✧✧✧ Bienvenidos al Sistema Inacap ✧✧✧✧✧✧✧✧")
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦ MENÚ DOCENTE ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦\n      ") # Invoca a la Clase Nota
-                    print("1.- Agregar Nota a Estudinte                                          ") # Invoca a la Funcion Agregar Nota
-                    print("2.- Modificar Nota a Estudinte                                        ") # Invoca a la Funcion Modificar Nota
-                    print("3.- Eliminar Nota a Estudinte                                         ") # Invoca a la Funcion Eliminar Nota
+                    print("1.- Agregar Nota a Estudiante                                          ") # Invoca a la Funcion Agregar Nota
+                    print("2.- Modificar Nota a Estudiante                                        ") # Invoca a la Funcion Modificar Nota
+                    print("3.- Eliminar Nota a Estudiante                                         ") # Invoca a la Funcion Eliminar Nota
                     print("4.- Cambiar contraseña                                                ") 
                     print("                                                                      ") 
                     print("6.-                                                                   ")
@@ -144,20 +144,24 @@ while not op == 6:
                             #se cumplan ambas opciones
                             if op == 1:
                                 print("\n✦ Accediendo al Portal Agregar Notas\n")
+                                doc=docente()
+                                doc.agregarNota()
                                 # Invocamos a Clase Notas para Agregar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
                             if op == 2:
                                 print("\n✦ Accediendo a Portal Modificar Notas\n")
+                                doc=docente()
+                                doc.modificarNota()
                                 # Invocamos a Clase Notas para Modificar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
-                                print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 3:
                                 print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                doc=docente()
+                                doc.eliminarNota()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 4:
                                 print("\n✦ Accediendo a Portal Cambio de Contraseña\n")
                                 useraux = 'Docente'
