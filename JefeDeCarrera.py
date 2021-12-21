@@ -556,3 +556,297 @@ class jefeDeCarrera:
             except Exception as ex:
                     print(ex)
 
+
+
+
+        ######################################33
+                #Seccion y Docentes
+        #####################################
+
+    
+    def asignarSecDoc(self):
+        ###listar Docentes
+        ###elegir docente
+        ###listar seccion
+        ###asignar seccion
+        print("| ID | Nombre y Apellido |  Rut  |  Telefono  |     Correo     | ID Area |")
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_docente, nombres, apellidop, rut, telefono, correo, id_area from docente "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex)
+        docente= input(" Indique El ID del docente para asignarle Seccion: ")
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_seccion, seccion, modalidad from seccion order by id_seccion ASC "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex)
+        idseccion= input(" Indique el ID de Seccion que desea asignarle al Docente: ")
+
+        try:
+
+            cn1= Conexion()
+
+            cursor = cn1.conexion.cursor()                   
+            SQL0 = f"insert into carga_seccion (id_seccion, id_docente) values ('{idseccion}', '{docente}')"               
+            cursor.execute(SQL0)
+            cn1.conexion.commit()
+            print(" Seccion Asignada con exito...  ")  
+        except Exception as ex:
+            print(ex)           
+
+    def modificarSECDOC(self):
+
+        print("| ID | Nombre y Apellido |  Rut  |")
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_docente, nombres, apellidop, rut from docente "
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[1],"  |  ",row[2],"  |  ",row[3],"  |  ")
+        except Exception as ex:
+                print(ex)
+        docente= input(" Indique El ID del docente que desea cambiar de Seccion: ")
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select c.id_carga_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            SQL0 = SQL0 + f"where d.id_docente= '{docente}'"
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[2],"  |  ",row[3],"  |  ",row[4])
+        except Exception as ex:
+                print(ex)
+        idcarga= input(" Indique el ID del registro que desea cambiar la seccion: ")    
+
+        print("| ID | Nombre  |  Modalidad  |  ID Carrera |")
+        try:
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_seccion, seccion, modalidad, id_carrera from seccion "
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[1],"  |  ",row[2],"  |  ")
+        except Exception as ex:
+                print(ex) 
+        id_seccion= input("Indique la nueva seccion que desea asignale al Docente: ")   
+
+        try:
+
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                   
+                SQL0 = f"update carga_seccion set id_seccion='{id_seccion}' where id_docente='{docente}' and id_carga_seccion='{idcarga}'"                
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Del Docente Modificada con exito...  ")  
+        except Exception as ex:
+                print(ex)  
+
+    def eliminarSECDOC(self):
+
+        print("| ID | Nombre y Apellido |  Rut  |")
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_docente, nombres, apellidop, rut from docente "
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[1],"  |  ",row[2],"  |  ",row[3],"  |  ")
+        except Exception as ex:
+                print(ex)
+        docente= input(" Indique El ID del docente que desea elimnarle la Seccion: ")
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select c.id_carga_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            SQL0 = SQL0 + f"where d.id_docente= '{docente}'"
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[2],"  |  ",row[3],"  |  ",row[4])
+        except Exception as ex:
+                print(ex)
+        idcarga= input(" Indique el ID del registro que desea Eliminar: ")    
+
+        print("| ID | Nombre  |  Modalidad  |  ID Carrera |") 
+
+        try:
+
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                   
+                SQL0 = f"delete from carga_seccion where id_docente='{docente}' and id_carga_seccion='{idcarga}'"                
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Eliminada Del Docente con exito...  ")  
+        except Exception as ex:
+                print(ex) 
+
+
+
+                ################################
+                ##Secciones Estudiante
+                ################################
+    
+    def asignarSECEST(self):
+        
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_estudiante, nombres, apellidop, rut from estudiante "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex)
+        estudiante= input(" Indique El ID del Estudiante para asignarle Seccion: ")
+
+
+        #actualizar notas con seccion y docente
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select s.id_seccion, c.id_carga_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            for row in cursor.execute(SQL0):
+                print(row[1],"  |  ",row[3], row[4],"  |  ", row[5])
+            
+        except Exception as ex:
+                print(ex)
+        idcarga= input(" Indique el ID del registro que contenga la Seccion y Docente para asignarle al estudiante: ")
+        seccion=row[0]
+        docente=row[2] 
+
+        try:
+            cn1= Conexion()
+            cn1.conexion.cursor()
+            SQL0= f"select id_docente, id_seccion from carga_seccion where id_carga_seccion='{idcarga}'"
+            for row in cursor.execute(SQL0):
+                pass
+                
+
+        except Exception as ex:
+            print(ex)
+
+        try:
+
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                     
+                SQL0 = f"update nota set id_seccion='{seccion}', id_docente= '{docente}' where id_estudiante = '{estudiante}'"
+            
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Asignada con exito...  ")              
+
+        except Exception as ex:
+
+                print(ex)
+        #Actualizar estudiante con su seccion
+        try:
+
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                     
+                SQL0 = f"update estudiante set id_seccion='{seccion}' where id_estudiante='{estudiante}'"
+            
+                cursor.execute(SQL0)
+                cn1.conexion.commit()            
+
+        except Exception as ex:
+
+                print(ex)
+
+
+    def modificarSECEST(self):
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_estudiante, nombres, apellidop, rut from estudiante "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex)
+        estudiante= input(" Indique El ID del Estudiante para Modificar Seccion: ")
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select n.id_nota, e.nombres, e.apellidop , s.seccion from nota n "
+            SQL0 = SQL0 + f"inner join estudiante e on e.id_estudiante = n.id_estudiante "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = n.id_seccion "
+            SQL0 = SQL0 + f"where e.id_estudiante= '{estudiante}'"
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[1], row[2],"  |  ", row[3])
+            
+        except Exception as ex:
+                print(ex)
+        carga= input("Indique el registro que Desea Modificar Seccion: ")
+
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select s.id_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ",row[1],"  |  ", row[4])
+            
+        except Exception as ex:
+                print(ex)
+        seccion= input("Indique la nueva seccion para el estudiante: ")
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select s.id_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            SQL0 = SQL0 + f"where s.id_seccion='{seccion}'"
+            for row in cursor.execute(SQL0):
+                print(row[0],"  |  ", row[1],"  |  ", row[4])
+            
+        except Exception as ex:
+                print(ex)
+        docente= row[1]
+
+        try:
+
+                cn1= Conexion()
+
+                cursor = cn1.conexion.cursor()                     
+                SQL0 = f"update nota set id_seccion='{seccion}', id_docente= '{docente}' where id_nota = '{carga}'"
+            
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+                print(" Seccion Modificada con exito...  ")              
+
+        except Exception as ex:
+
+                print(ex)
+
+
+
+
