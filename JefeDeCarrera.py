@@ -14,7 +14,69 @@ class jefeDeCarrera:
                 print(row)
         except Exception as ex:
                 print(ex)
+    
+    def modificarDoc(self):
+        print("| ID | Nombre y Apellido |  Rut  |  Telefono  |     Correo     | ID Area |")
+        try:
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select id_docente, nombres, apellidop, rut, telefono, correo, id_area from docente "
+            for row in cursor.execute(SQL0):
+                print(row)
+        except Exception as ex:
+                print(ex) 
+        id_docente=int(input("indique ID Docente Para Cambiar Nombre: "))     
+        newNombre=input("indique el nuevo nombre del Docente: ")  
+        try:
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()  
+            SQL0 = f"update docente set nombres='{newNombre}' where id_docente='{id_docente}' "
+            cursor.execute(SQL0)
+            cn1.conexion.commit()
+            print(" Docente Actualizado con exito...  ")   
+        except Exception as ex:
+                print(ex)   
 
+
+    def eliminarDocente(self):
+
+            print("\n \n")
+            print("\n Listado Docente ")
+            print("")
+            print("ID | Rut | Nombre ")
+            try:
+                cn= Conexion()
+                cursor = cn.conexion.cursor()
+
+                SQL = f"select id_docente, rut, nombres, apellidop, apellidom from Docente "
+                for row in cursor.execute(SQL):
+                    print(row[0]," | ",row[1]," | ",row[2]+" "+row[3]+" "+row[4] )
+
+
+
+            except Exception as ex:
+                print(ex)
+
+            rut = input(f"\n Ingrese Rut Docente a Eliminar: ")
+
+            try:
+                cn1= Conexion()
+                cursor = cn1.conexion.cursor()
+
+
+
+                SQL0 = f"delete from docente WHERE rut='{rut}' "
+
+
+
+                cursor.execute(SQL0)
+                cn1.conexion.commit()
+
+                print("\n****** Docente Eliminado Correctamente *****\n")
+            except Exception as ex:
+                print(ex)
+
+         
  #########################################################################################   
     #Modulos
     def VerModulosSis(self):
@@ -333,6 +395,7 @@ class jefeDeCarrera:
             except Exception as ex:
 
                         print(ex)
+            
     
     def modificarModuloEst(self):
                     
@@ -732,8 +795,22 @@ class jefeDeCarrera:
         except Exception as ex:
                 print(ex)
         idcarga= input(" Indique el ID del registro que contenga la Seccion y Docente para asignarle al estudiante: ")
-        seccion=row[0]
-        docente=row[2] 
+        
+        
+        try:
+
+            cn1= Conexion()
+            cursor = cn1.conexion.cursor()                      
+            SQL0 = f"select s.id_seccion, c.id_carga_seccion, d.id_docente, d.nombres , d.apellidop, s.seccion from docente d "
+            SQL0 = SQL0 + f"inner join carga_seccion c on c.id_docente = d.id_docente "
+            SQL0 = SQL0 + f"inner join seccion s on s.id_seccion = c.id_seccion "
+            SQL0 = SQL0 + f"where c.id_carga_seccion='{idcarga}'"
+            for row in cursor.execute(SQL0):
+                pass
+            docente=row[2] 
+            seccion=row[0]
+        except Exception as ex:
+            print(ex)
 
         try:
             cn1= Conexion()
@@ -745,13 +822,14 @@ class jefeDeCarrera:
 
         except Exception as ex:
             print(ex)
-
+        for idnota in cursor.execute("SELECT id_nota FROM Nota WHERE id_nota=(SELECT max(id_nota) FROM Nota)"):
+            idnota = idnota[0]
         try:
 
                 cn1= Conexion()
 
                 cursor = cn1.conexion.cursor()                     
-                SQL0 = f"update nota set id_seccion='{seccion}', id_docente= '{docente}' where id_estudiante = '{estudiante}'"
+                SQL0 = f"update nota set id_seccion='{seccion}', id_docente= '{docente}' where id_nota = '{idnota}'"
             
                 cursor.execute(SQL0)
                 cn1.conexion.commit()
