@@ -1,7 +1,8 @@
-
 from Matricula import Matricula
 from Persona import Persona
-from Estudiante import Estudiante
+from Estudiante import estudiante
+from JefeDeCarrera import jefeDeCarrera
+from Docente import docente
 
 import sys
 
@@ -109,7 +110,7 @@ while not op == 6:
                             print("--- Vuelva a seleccionar una de las alternativas del MunuEstudiante --- \n")   
                    
             #Fin Estudiante
-            if op == 2:
+            if op == 3:
                 
                 useraux = 'Docente'
                 User = Persona()
@@ -172,7 +173,7 @@ while not op == 6:
                             print("--- Vuelva a seleccionar una de las alternativas del MenuDocente --- \n")   
 
             #Fin Docentes
-            if op == 3:
+            if op == 4:
                 
                 useraux = 'JefeCarrera'
                 User = Persona()
@@ -185,18 +186,18 @@ while not op == 6:
                     print("\n✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                     print("✧✧✧✧✧✧✧✧✧ Bienvenidos al Sistema Inacap ✧✧✧✧✧✧✧✧            ")
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦ MENÚ JEFE DE CARRERA ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦\n") # Invoca a la Clase Nota
-                    print("1.- Asignar Modulo a Estudinte                                      ") # Invoca a la Funcion Agregar Nota
-                    print("2.- Modificar Modulo a Estudinte                                      ") # Invoca a la Funcion Modificar Nota
-                    print("3.- Eliminar Modulo a Estudinte                                       ") # Invoca a la Funcion Eliminar Nota
-                    print("4.- Ver Modulos del Sistema                                           ") 
-                    print("5.- Nuevo Modulo                                                      ")                     
-                    print("6.- Modificar Modulo                                                  ") 
-                    print("7.- Eliminar Modulo                                                   ")
-                    print("8.- Agregar Modulo a Docente                                          ") 
-                    print("9.- Modificar Modulo a Docente                                        ")                      
-                    print("10.- Eliminar Modulo a Docente                                        ") 
-                    print("11.- Ver Modulos del Sistema                                          ") 
-                    print("12.- Cambiar contraseña                                               ") 
+                    print("1.- Asignar Modulo Y Seccion a Estudiante                               ") # Se debe asignar Modulo y Seccion al mismo tiempo, Se invocan las funciones Agregar Modulo y Agregar Seccion.
+                    print("2.- Modificar Modulo a Estudiante                                      ") # Invoca a la Funcion Modificar Nota
+                    print("3.- Eliminar Modulo a Estudiante                                       ") # Invoca a la Funcion Eliminar Modulo Estudiante
+                    print("4.- Modificar Seccion a Estudiante                                       ")#Invoca a la Funcion Modificar Seccion Estudiante
+                    print("5.- Ver Modulos del Sistema                                           ") 
+                    print("6.- Nuevo Modulo                                                      ")                     
+                    print("7.- Modificar Modulo                                                  ") 
+                    print("8.- Eliminar Modulo                                                   ")
+                    print("9.- Agregar Modulo a Docente                                          ") 
+                    print("10.- Modificar Modulo a Docente                                        ")                      
+                    print("11.- Eliminar Modulo a Docente                                        ") 
+                    print("12.- Cambiar contraseña                                                ") 
                     print("                                                                      ")                                                            
                     print("\n13.- Salir                                                           ") # Salimos del programa   
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
@@ -204,84 +205,98 @@ while not op == 6:
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                 
                 op=0
-                while not op == 12:
-                        
+                while not op == 13:
+                    
                         MenuJefeCarrera()
                         op=int(input("✧ Seleccione una opcion: "))
-                        
                         if op > 0 and op <= 12:
-                            #se cumplan ambas opciones
+                        
                             if op == 1:
-                                print("\n✦ Accediendo al Portal Agregar Notas\n")
+                                print("\n✦ Accediendo al Portal Asignar Modulo y Seccion a Estudiante\n")
+                                jc=jefeDeCarrera()
+                                jc.AsignarModEst()
+                                jc.asignarSECEST()
                                 # Invocamos a Clase Notas para Agregar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
                             if op == 2:
-                                print("\n✦ Accediendo a Portal Modificar Notas\n")
+                                print("\n✦ Accediendo a Portal Modificar Modulo Estudiante\n")
+                                jc=jefeDeCarrera()
+                                jc.modificarModuloEst()                            
                                 # Invocamos a Clase Notas para Modificar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
-                                print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 3:
-                                print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                print("\n✦ Accediendo a Portal Eliminar Modulo a Estudiante\n")
+                                jc=jefeDeCarrera()
+                                jc.eliminarMODEST()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ")
                             if op == 4:
-                                print("\n✦ Accediendo al Portal Agregar Notas\n")
+                                print("\n✦ Accediendo al Portal Modificar Seccion a Estudiante\n")
+                                jc=jefeDeCarrera()
+                                jc.modificarSECEST()
                                 # Invocamos a Clase Notas para Agregar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
                             if op == 5:
-                                print("\n✦ Accediendo a Portal Modificar Notas\n")
+                                print("\n✦ Accediendo a Portal Ver Modulos De Sistema\n")
+                                jc=jefeDeCarrera()
+                                jc.VerModulosSis()
                                 # Invocamos a Clase Notas para Modificar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
-                                print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 6:
-                                print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                print("\n✦ Accediendo a Portal Creacion Nuevo Modulo\n")
+                                jc=jefeDeCarrera()
+                                jc.CrearModulo()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ")
                             if op == 7:
-                                print("\n✦ Accediendo al Portal Agregar Notas\n")
+                                print("\n✦ Accediendo al Portal Modificar Modulo Sistema\n")
+                                jc=jefeDeCarrera()
+                                jc.modificarModulo()
                                 # Invocamos a Clase Notas para Agregar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
                             if op == 8:
-                                print("\n✦ Accediendo a Portal Modificar Notas\n")
+                                print("\n✦ Accediendo a Portal Eliminar Modulo Sistema\n")
+                                jc=jefeDeCarrera()
+                                jc.EliminarModulo()
                                 # Invocamos a Clase Notas para Modificar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
                                 
-                                print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 9:
-                                print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                print("\n✦ Accediendo a Portal Agregar Modulo a Docente\n")
+                                jc=jefeDeCarrera()
+                                jc.AsignarModDoc()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ")
                             if op == 10:
-                                print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                print("\n✦ Accediendo a Portal Modificar Modulo a Docente\n")
+                                jc=jefeDeCarrera()
+                                jc.modificarModuloDoc()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ")
                             if op == 11:
-                                print("\n✦ Accediendo a Portal Eliminar Notas\n")
+                                print("\n✦ Accediendo a Portal Eliminar Modulo a Docente\n")
+                                jc=jefeDeCarrera()
+                                jc.eliminarMODDOC()
                                 # Invocamos a Clase Notas para Eliminar rut del Alumno
                                 # validamos el modulo, seccion y agregamos nota 
-                                print("Menu en construccion vuelva mas tarde.... ")                                 
                             if op == 12:
-                                print("\n✦ Accediendo a Portal Cambio de Contraseña\n")
-                                useraux = 'Jefe Carrera'
-                                User = Persona()
-                                User.CambiarContraseña(useraux)                               
+                                print("\n✦ Accediendo a Portal Cambiar Contraseña\n")
+                                # Invocamos a Clase Notas para Eliminar rut del Alumno
+                                # validamos el modulo, seccion y agregamos nota 
+                                print("Menu en construccion vuelva mas tarde.... ")  
                             if op == 13:
                                 sys.exit("Saliendo del MenuDocente")
                         else:
-                            print("\n--- Opcion seleccionada no es valida ---")
-                            print("--- Vuelva a seleccionar una de las alternativas del MenuDocente --- \n")   
+                                print("\n--- Opcion seleccionada no es valida ---")
+                                print("--- Vuelva a seleccionar una de las alternativas del MenuDocente --- \n")   
 
             #Fin JefeCarrera
-            if op == 4:
+            if op == 5:
                 print("\nAccediento al Formulario Administrador\n")
                 useraux = 'Administrador'
                 User = Persona()
@@ -301,11 +316,11 @@ while not op == 6:
                     print("7.- Anular Matricula                                                 ") # Invoca a la funcion Anular Matricula Usuarios
                     print("8.- Modificar Matricula                                              ") # a la funcion Modificar Matricula Usuarios
                     print("9.- Ver Notas de Estudiante                                          ") # Invoca a la Funcion VerNota                    
-                    print("10.- Agregar Nota a Estudinte                                          ") # Invoca a la Funcion Agregar Nota
-                    print("11.- Modificar Nota a Estudinte                                        ") # Invoca a la Funcion Modificar Nota
-                    print("12.- Eliminar Nota a Estudinte                                         ") # Invoca a la Funcion Eliminar Nota 
+                    print("10.- Agregar Nota a Estudiante                                        ") # Invoca a la Funcion Agregar Nota
+                    print("11.- Modificar Nota a Estudiante                                      ") # Invoca a la Funcion Modificar Nota
+                    print("12.- Eliminar Nota a Estudiante                                       ") # Invoca a la Funcion Eliminar Nota 
                     print("13.- Ver Modulos de Estudiante                                         ") # Invoca a la Funcion ListaModulos                   
-                    print("14.- Inscribir Modulo a Estudinte                                      ") # Invoca a la Funcion Agregar Nota
+                    print("14.- Inscribir Modulo y Seccion a Estudiante                           ") # Invoca a la Funcion Agregar Nota
                     print("15.- Modificar Modulo a Estudinte                                      ") # Invoca a la Funcion Modificar Nota
                     print("16.- Eliminar Modulo a Estudinte                                       ") # Invoca a la Funcion Eliminar Nota
                     print("17.- Ver Modulos del Sistema                                           ") 
@@ -374,38 +389,52 @@ while not op == 6:
                                     if op == 8:
                                         print("Menu en construccion vuelva mas tarde.... ")
                                     if op == 9:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        est=estudiante()
+                                        est.verNotas()
                                     if op == 10:
-                                        print("Menu en construccion vuelva mas tarde.... ")    
+                                        doc=docente
+                                        doc.agregarNota()
                                     if op == 11:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        doc=docente
+                                        doc.modificarNota()                                    
                                     if op == 12:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                          
+                                        doc=docente         
+                                        doc.eliminarNota()                                       
                                     if op == 13:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        est=estudiante()
+                                        est.verModulos(Rut)
                                     if op == 14:
-                                        print("Menu en construccion vuelva mas tarde.... ")    
+                                        jc=jefeDeCarrera()
+                                        jc.AsignarModEst()
+                                        jc.asignarSECEST()    
                                     if op == 15:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        jc=jefeDeCarrera()
+                                        jc.modificarModuloEst()
                                     if op == 16:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                          
+                                        jc=jefeDeCarrera()
+                                        jc.eliminarMODEST()
                                     if op == 17:
-                                        print("Menu en construccion vuelva mas tarde.... ")    
+                                        jc=jefeDeCarrera()
+                                        jc.VerModulosSis()
                                     if op == 18:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        jc=jefeDeCarrera()
+                                        jc.CrearModulo()
                                     if op == 19:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                          
+                                        jc=jefeDeCarrera()
+                                        jc.modificarModulo()
                                     if op == 20:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        jc=jefeDeCarrera()
+                                        jc.EliminarModulo()
                                     if op == 21:
-                                        print("Menu en construccion vuelva mas tarde.... ")    
+                                        jc=jefeDeCarrera()
+                                        jc.AsignarModDoc()
                                     if op == 22:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                    
+                                        jc=jefeDeCarrera()
+                                        jc.modificarModuloDoc()
                                     if op == 23:
-                                        print("Menu en construccion vuelva mas tarde.... ") 
+                                        jc=jefeDeCarrera()
+                                        jc.eliminarMODDOC()
                                     if op == 24:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                                                                      
-                                    if op == 25:
                                         sys.exit("Saliendo del MunuAdmin")
                                                 
                     else:
@@ -413,16 +442,9 @@ while not op == 6:
                                 print("--- Vuelva a seleccionar una de las alternativas del MenuAdmin --- \n")
                                                 
                 
-            if op == 5:
+            if op == 6:
                 sys.exit("Saliendo del sistema")
             
         else:
             print("\n--- Opcion seleccionada no valida ---")
             print("--- Vuelva a seleccionar una de las alternativas del MenuAdmin --- \n")
-
-            
-
-
-
-                
-
