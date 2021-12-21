@@ -1,47 +1,66 @@
 
 from Matricula import Matricula
 from Persona import Persona
+from Estudiante import Estudiante
 
+import sys
 
 class Menu:
     useraux='' 
+    Rut = ''
+
     #Creacion de Menu con las opciones basicas de seleccion
 def Menu():
-        
+       
         print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
         print("✧✧✧✧✧✧✧✧✧ Bienvenidos al Sistema Inacap ✧✧✧✧✧✧✧✧")
         print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦ MENÚ PRINCIPAL ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦\n")
-        print("1.- Estudiantes                                                       ") # Invoca a la clase Estudiantes se valida por usuario
-        print("2.- Docentes                                                          ") # Invoca a la Clase Docentes se valida por usuario
-        print("3.- Jefe de Carrera                                                   ") # Invoca a la Clase JefedeCarrera se valida por usuario
-        print("4.- Administrador                                                     ") # Salimos del programa
+        print("1.- Matricularse(Estudiante Nuevo)                                           ") 
+        print("2.- Estudiantes                                                          ") # Invoca a la clase Estudiantes se valida por usuario
+        print("3.- Docentes                                                             ") # Invoca a la Clase Docentes se valida por usuario
+        print("4.- Jefe de Carrera                                                      ") # Invoca a la Clase JefedeCarrera se valida por usuario
+        print("5.- Administrador                                                        ") # Salimos del programa
         print("                                                                      ") # Salimos del programa
-        print("5.- Salir                                                           ") # Salimos del programa   
+        print("6.- Salir                                                           ") # Salimos del programa   
         print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
         print("  Todos los derechos e izquierdos reservados®   ")
         print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
     
     
 op=0
-while not op == 5:
+while not op == 6:
         
         Menu()
         op=int(input("✧ Seleccione una opcion: "))
         
         if op > 0 and op <= 5:
             #se cumplan ambas opciones
-            if op == 1:
+            if op == 1: #Inicio Matricula
+                    print("\n✦ Accediendo al Portal Matriculas\n")
+                    Mat = Matricula()
+                    Mat.MostrarCarrera()
+                    Mat.CalcularCuota()
+                    Mat.ingresarMatricula()
+                    Mat.Transaccion() 
+                
+                   
+            #Fin Matricula
+            if op == 2: #Inicio Estudiante
+                 
+                useraux = 'Estudiante'
+                Rut = input("\nIngrese Rut para validar usuario:")
+                User = Persona()
+                User.Validacion(useraux, Rut)
                  
                 def MenuEstudiante():
  
                     print("\n✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                     print("✧✧✧✧✧✧✧✧✧ Bienvenidos al Sistema Inacap ✧✧✧✧✧✧✧✧")
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦ MENÚ ESTUDIANTE ✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦\n   ") # Invoca a la Clase Matricula
-                    print("1.- Matricularse                                                      ") # Invoca a la Funcion IngresarMatricula  #OK
-                    print("2.- Ver Modulos                                                       ") # Invoca a la Funcion ListaModulos   #
-                    print("3.- Ver Notas                                                         ") # Invoca a la Funcion VerNota   #
-                    print("4.- Cambiar contraseña                                                ") 
-                    print("5.- Portal de Pago                                                    ") 
+                    print("1.- Ver Modulos                                                       ") # Invoca a la Funcion verModulos   #OK
+                    print("2.- Ver Notas                                                         ") # Invoca a la Funcion verNotas   #OK
+                    print("3.- Cambiar contraseña                                                ") # Invoca a la Funcion CambiarContraseña #OK
+                    print("4.- Portal de Pago                                                    ") # Invoca a la Funcion ModificarCuponera 
                     print("                                                                      ")
                     print("\n5.- Salir                                                           ") # Salimos del programa   
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
@@ -49,7 +68,7 @@ while not op == 5:
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                 
                 op=0
-                while not op == 4:
+                while not op == 6:
                         
                         MenuEstudiante()
                         op=int(input("✧ Seleccione una opcion: "))
@@ -57,36 +76,34 @@ while not op == 5:
                         if op > 0 and op <= 4:
                             #se cumplan ambas opciones
                             if op == 1:
-                                print("\n✦ Accediendo al Portal Matriculas\n")
-                                Mat = Matricula()
-                                Mat.MostrarCarrera()
-                                Mat.CalcularCuota()
-                                Mat.ingresarMatricula()
-                                Mat.Transaccion()
-                                break
-                                # Invocamos a Clase Matricula para ingresar un Alumno
-                                # Del mismo formulario, llenamos la tabla Estudiante 
+                                print("\n✦ Accediendo a Portal Modulos de Estudiante\n")
+
+                                Est = Estudiante() # Instanciar Clase Estudiante para obtener sus funciones
+                                Est.verModulos(Rut) # Pasamos por parametros el usuario ya validado, para obtener resultados
                                 
                             if op == 2:
-                                print("\n✦ Accediendo a Portal Notas del Modulos\n")
-                                useraux = 'Estudiante'
-                                User = Persona()
-                                User.Validacion(useraux)
-                                # Invocamos a Clase Personas para validar usuario y contraseña  
+                                print("\n✦ Accediendo a Portal Notas de Estudiante\n")
+                    
+                                Est = Estudiante() # Instanciar Clase Estudiante para obtener sus funciones
+                                Est.verNotas(Rut)  # Pasamos por parametros el usuario ya validado, para obtener resultados
 
-                                # Invocamos Clase Estudiantes para ver ver modulos
-                                print("Menu en construccion vuelva mas tarde.... ") 
+
                             if op == 3:
-                                print("\n✦ Accediendo a Portal Notas del Notas\n")
-                                useraux = 'Estudiante'
-                                User = Persona()
-                                User.Validacion(useraux)
-
-                                # Invocamos Clase Estudiantes para ver ver notas
-                                print("Menu en construccion vuelva mas tarde.... ") 
+                                print("\n✦ Accediendo a Portal Cambiar Contraseña\n")
+                                Per = Persona() # Instanciar Clase Persona para obtener sus funciones
+                                Per.CambiarContraseña(useraux, Rut) # Pasamos por parametros el usuario ya validado, para obtener resultados
+                          
                             if op == 4:
-                                #sys.exit("Saliendo del MunuEstudiante")
-                                Menu()
+                                print("\n✦ Accediendo a Portal de Pago\n")
+                             
+                                Mat = Matricula()  # Invocamos Clase Matricula para actualizar la cuponera
+                                Mat.ModificarCuponera(Rut) # Pasamos por parametros el usuario ya validado, para obtener resultados
+
+                                
+          
+                            if op == 5:
+                                sys.exit("Saliendo del MunuEstudiante")
+                          
                         else:
                             print("\n--- Opcion seleccionada no es valida ---")
                             print("--- Vuelva a seleccionar una de las alternativas del MunuEstudiante --- \n")   
@@ -141,7 +158,15 @@ while not op == 5:
                                 # validamos el modulo, seccion y agregamos nota 
                                 print("Menu en construccion vuelva mas tarde.... ") 
                             if op == 4:
+                                print("\n✦ Accediendo a Portal Cambio de Contraseña\n")
+                                useraux = 'Docente'
+                                User = Persona()
+                                User.CambiarContraseña(useraux)
+
+                                # Invocamos Clase Persona modificar la contraseña para ver ver notas
+                            if op == 5:
                                 sys.exit("Saliendo del MenuDocente")
+                                
                         else:
                             print("\n--- Opcion seleccionada no es valida ---")
                             print("--- Vuelva a seleccionar una de las alternativas del MenuDocente --- \n")   
@@ -173,7 +198,7 @@ while not op == 5:
                     print("11.- Ver Modulos del Sistema                                          ") 
                     print("12.- Cambiar contraseña                                               ") 
                     print("                                                                      ")                                                            
-                    print("\n12.- Salir                                                           ") # Salimos del programa   
+                    print("\n13.- Salir                                                           ") # Salimos del programa   
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                     print("  Todos los derechos e izquierdos reservados®                         ")
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
@@ -245,6 +270,11 @@ while not op == 5:
                                 # validamos el modulo, seccion y agregamos nota 
                                 print("Menu en construccion vuelva mas tarde.... ")                                 
                             if op == 12:
+                                print("\n✦ Accediendo a Portal Cambio de Contraseña\n")
+                                useraux = 'Jefe Carrera'
+                                User = Persona()
+                                User.CambiarContraseña(useraux)                               
+                            if op == 13:
                                 sys.exit("Saliendo del MenuDocente")
                         else:
                             print("\n--- Opcion seleccionada no es valida ---")
@@ -265,28 +295,29 @@ while not op == 5:
                     print("1.- Ingresar Usuarios                                                ") # 
                     print("2.- Eliminar Usuarios                                                ") # Invoca a la funcion Eliminar Usuarios
                     print("3.- Cambiar Contraseña de Usuario                                    ")
-                    print("4.- Ver Estudiantes Matriculados                                     ")
-                    print("5.- Matricular                                                       ") # Invoca a la funcion Eliminar Usuarios                    
-                    print("6.- Anular Matricula                                                 ") # Invoca a la funcion Anular Matricula Usuarios
-                    print("7.- Modificar Matricula                                              ") # a la funcion Modificar Matricula Usuarios
-                    print("8.- Ver Notas de Estudiante                                          ") # Invoca a la Funcion VerNota                    
-                    print("9.- Agregar Nota a Estudinte                                          ") # Invoca a la Funcion Agregar Nota
-                    print("10.- Modificar Nota a Estudinte                                        ") # Invoca a la Funcion Modificar Nota
-                    print("11.- Eliminar Nota a Estudinte                                         ") # Invoca a la Funcion Eliminar Nota 
-                    print("12.- Ver Modulos de Estudiante                                         ") # Invoca a la Funcion ListaModulos                   
-                    print("13.- Inscribir Modulo a Estudinte                                      ") # Invoca a la Funcion Agregar Nota
-                    print("14.- Modificar Modulo a Estudinte                                      ") # Invoca a la Funcion Modificar Nota
-                    print("15.- Eliminar Modulo a Estudinte                                       ") # Invoca a la Funcion Eliminar Nota
-                    print("16.- Ver Modulos del Sistema                                           ") 
-                    print("17.- Nuevo Modulo                                                      ")                     
-                    print("18.- Modificar Modulo                                                  ") 
-                    print("19.- Eliminar Modulo                                                   ")
-                    print("20.- Agregar Modulo a Docente                                          ") 
-                    print("21.- Modificar Modulo a Docente                                        ")                      
-                    print("22.- Eliminar Modulo a Docente                                        ") 
-                    print("23.- Ver Modulos de Docente                                          ") 
+                    print("4.- Cambiar Contraseña de Usuario                                    ")
+                    print("5.- Ver Estudiantes Matriculados                                     ")
+                    print("6.- Matricular                                                       ") # Invoca a la funcion Eliminar Usuarios                    
+                    print("7.- Anular Matricula                                                 ") # Invoca a la funcion Anular Matricula Usuarios
+                    print("8.- Modificar Matricula                                              ") # a la funcion Modificar Matricula Usuarios
+                    print("9.- Ver Notas de Estudiante                                          ") # Invoca a la Funcion VerNota                    
+                    print("10.- Agregar Nota a Estudinte                                          ") # Invoca a la Funcion Agregar Nota
+                    print("11.- Modificar Nota a Estudinte                                        ") # Invoca a la Funcion Modificar Nota
+                    print("12.- Eliminar Nota a Estudinte                                         ") # Invoca a la Funcion Eliminar Nota 
+                    print("13.- Ver Modulos de Estudiante                                         ") # Invoca a la Funcion ListaModulos                   
+                    print("14.- Inscribir Modulo a Estudinte                                      ") # Invoca a la Funcion Agregar Nota
+                    print("15.- Modificar Modulo a Estudinte                                      ") # Invoca a la Funcion Modificar Nota
+                    print("16.- Eliminar Modulo a Estudinte                                       ") # Invoca a la Funcion Eliminar Nota
+                    print("17.- Ver Modulos del Sistema                                           ") 
+                    print("18.- Nuevo Modulo                                                      ")                     
+                    print("19.- Modificar Modulo                                                  ") 
+                    print("20.- Eliminar Modulo                                                   ")
+                    print("21.- Agregar Modulo a Docente                                          ") 
+                    print("22.- Modificar Modulo a Docente                                        ")                      
+                    print("23.- Eliminar Modulo a Docente                                        ") 
+                    print("24.- Ver Modulos de Docente                                          ") 
                     print("                                                                    ")                                                            
-                    print("\n24.- Salir                                                           ") # Salimos del programa   
+                    print("\n25.- Salir                                                           ") # Salimos del programa   
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
                     print("  Todos los derechos e izquierdos reservados®                         ")
                     print("✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦✦")
@@ -317,7 +348,10 @@ while not op == 5:
                                         # Incocamosla funcion para eliminar  Docente o Jefe de Carrera
                                                     
                                     if op == 3:
-                                        pass
+                                        print("\n✦ Accediendo a Portal Cambio de Contraseña\n")
+                                        useraux = 'Administrador'
+                                        User = Persona()
+                                        User.CambiarContraseña(useraux)     
 
                                     if op == 4:
                                         pass
@@ -368,8 +402,10 @@ while not op == 5:
                                     if op == 22:
                                         print("Menu en construccion vuelva mas tarde.... ")                                    
                                     if op == 23:
-                                        print("Menu en construccion vuelva mas tarde.... ")                                                                                 
+                                        print("Menu en construccion vuelva mas tarde.... ") 
                                     if op == 24:
+                                        print("Menu en construccion vuelva mas tarde.... ")                                                                                      
+                                    if op == 25:
                                         sys.exit("Saliendo del MunuAdmin")
                                                 
                     else:
