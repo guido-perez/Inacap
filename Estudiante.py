@@ -57,7 +57,7 @@ class Estudiante:
                 
                 cn= Conexion()
                 cursor = cn.conexion.cursor()                      
-                SQL = f"select m.modulo, n.nota_1, n.nota_1, n.nota_1, n.nota_1, nota_examen from nota n "
+                SQL = f"select m.modulo, n.nota_1, n.nota_2, n.nota_3, n.nota_4, nota_examen from nota n "
                 SQL = SQL + f"inner join modulo m on n.id_modulo=m.id_modulo "
                 SQL = SQL + f"where id_estudiante='{idest}' "
                 for row in cursor.execute(SQL):
